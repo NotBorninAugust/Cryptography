@@ -1,9 +1,9 @@
 
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class EncryptGUI {
@@ -12,39 +12,56 @@ public class EncryptGUI {
         JFrame frame = new JFrame("Encrypt and Decrypt");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
-        frame.setLayout(new FlowLayout());
+        frame.setLayout(null);
 
-        JTextField textField = new JTextField(25);
+        JLabel word = new JLabel("Enter Word: ");
+        word.setBounds(50, 30, 150, 15);
+        frame.add(word);
+
+        JLabel shift = new JLabel("Enter Shift: ");
+        shift.setBounds(50, 80, 150, 15);
+        frame.add(shift);
+
+
+        JTextField textField = new JTextField();
+        textField.setBounds(50, 50, 110, 20);
+        frame.add(textField);
+
+        JTextField shiftField = new JTextField();
+        shiftField.setBounds(50, 100, 110, 20);
+        frame.add(shiftField);
+
 
         JButton encryptButton = new JButton("Encrypt Text");
-        JButton decryptButton = new JButton("Decrypt Text");
+        encryptButton.setBounds(180, 50, 120, 20);
+        frame.add(encryptButton);
 
+        JButton decryptButton = new JButton("Decrypt Text");
+        decryptButton.setBounds(180, 100, 120, 20);
+        frame.add(decryptButton);
+        
+
+        frame.setVisible(true);
         encryptButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 String input = textField.getText();
-                String encrypted = encrypt(input, 3);
+                int shift = Integer.parseInt(shiftField.getText());
+                String encrypted = encrypt(input, shift);
                 textField.setText(encrypted);
                 System.out.println("Encrypted: " + encrypted);
             }
             
         });
-
         decryptButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 String input = textField.getText();
-                String decrypted = decrypt(input, 3);
+                int shift = Integer.parseInt(shiftField.getText());
+                String decrypted = decrypt(input, shift);
                 textField.setText(decrypted);
                 System.out.println("Decrypted: " + decrypted);
 
             }
         });
-
-
-        frame.add(textField);
-        frame.add(encryptButton);
-        frame.add(decryptButton);
-
-        frame.setVisible(true);
 
     }
     public static String encrypt(String input, int shift){
@@ -54,7 +71,7 @@ public class EncryptGUI {
                 char base = Character.isLowerCase(c) ? 'a' : 'A';
                 result.append((char) ((c - base + shift) % 26 + base));
             } else {
-                result.append(c); // Keep non-letters unchanged
+                result.append(c);
             }
         } 
         return result.toString();       
