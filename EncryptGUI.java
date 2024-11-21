@@ -65,21 +65,22 @@ public class EncryptGUI {
 
     }
     public static String encrypt(String input, int shift){
-        StringBuilder result = new StringBuilder();
-        for (char c : input.toCharArray()) {
-            if (Character.isLetter(c)) {
-                char base = Character.isLowerCase(c) ? 'a' : 'A';
-                result.append((char) ((c - base + shift) % 26 + base));
-            } else {
-                result.append(c);
-            }
-        } 
-        return result.toString();       
+        char charWord = ' ';
+        String encrptyWord = "";
+        int i = 0;
 
+        while(i < input.length()){
+            charWord = input.charAt(i);
+
+            int ascii = (int) charWord;
+            int shiftAscii = ascii + shift;
+
+            encrptyWord += Character.toString(shiftAscii);
+            i++;
+        }
+        return encrptyWord;
     }
     public static String decrypt(String input, int shift){
-
-        return encrypt(input, 26 - shift);
-
+        return encrypt(input, - shift);
     }
 }
